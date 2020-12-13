@@ -9,27 +9,43 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.slappsm.android.R;
+import com.slappsm.android.ui.lyrics.LyricsFragment;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private TextView title;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
+
         return root;
+    }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        title = getView().findViewById(R.id.textViewLyricsCurrSong);
+        title.setOnClickListener(v -> showLyrics(v));
+    }
+
+    public void showLyrics(View v) {
+
+        Bundle bun = new Bundle();
+        bun.putString("title", title.getText().toString());
+        LyricsFragment lyricsfg = new LyricsFragment();
+        lyricsfg.setArguments(bun);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.home_layout, lyricsfg, "findThisFragment")
+                .addToBackStack(null)
+                .commit();
+
     }
 }

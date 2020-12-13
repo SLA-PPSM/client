@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.slappsm.android.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:name="com.slappsm.android.ui.friends.FriendsFragment"
+        android:label="@string/title_friends"
+        tools:layout="@layout/fragment_friends" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.slappsm.android.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.slappsm.android.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>
