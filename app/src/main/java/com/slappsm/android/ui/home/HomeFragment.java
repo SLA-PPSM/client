@@ -6,11 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.slappsm.android.MainActivity;
 import com.slappsm.android.R;
@@ -20,6 +23,7 @@ import com.slappsm.android.service.LastfmService;
 import com.slappsm.android.ui.lyrics.LyricsFragment;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,17 +32,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.ItemClickListener {
 
     private HomeViewModel homeViewModel;
     private TextView title;
-  
     public static String BASEURL = "https://songlyricsapi.herokuapp.com/api/lastfm/";
     private TextView textNickname;
     private TextView textScrobbles;
     private ImageView imageAvatar;
     private TextView textViewLyricsCurrSong;
     private String username;
+
+    RecyclerView recyclerView;
+    HomeRecyclerViewAdapter adapter;
+    ArrayList<String> recentTracksList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +56,15 @@ public class HomeFragment extends Fragment {
         textScrobbles = root.findViewById(R.id.textScrobbles);
         imageAvatar = root.findViewById(R.id.imageAvatar);
         textViewLyricsCurrSong = root.findViewById(R.id.textViewLyricsCurrSong);
+
+        recentTracksList = new ArrayList<>();
+
+        // set up the RecyclerView
+        recyclerView = root.findViewById(R.id.recyclerViewHome);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new HomeRecyclerViewAdapter(getContext(), recentTracksList);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
 
         this.loadProfile();
         this.loadCurrentTrack();
@@ -61,14 +77,13 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         title = getView().findViewById(R.id.textViewLyricsCurrSong);
-        title.setOnClickListener(v -> showLyrics(v));
+        title.setOnClickListener(v -> showLyrics(title.getText().toString()));
         System.out.println(username);
     }
 
-    public void showLyrics(View v) {
-
+    public void showLyrics(String song) {
         Bundle bun = new Bundle();
-        bun.putString("title", title.getText().toString());
+        bun.putString("title", song);
         LyricsFragment lyricsfg = new LyricsFragment();
         lyricsfg.setArguments(bun);
 
@@ -90,7 +105,10 @@ public class HomeFragment extends Fragment {
                     System.out.println("Server Error");
                 } else {
                     List<Song> recentTracks = response.body();
-                    System.out.println(recentTracks.toString());
+                    for (Song song: recentTracks) {
+                        recentTracksList.add(song.getTitle() + " - " + song.getArtist());
+                    }
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -155,5 +173,11 @@ public class HomeFragment extends Fragment {
                 System.out.println("Internet Error");
             }
         });
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        String song = adapter.getItem(position);
+        showLyrics(song);
     }
 }

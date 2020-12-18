@@ -11,13 +11,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.slappsm.android.MainActivity;
 import com.slappsm.android.R;
 import com.slappsm.android.model.Friend;
 import com.slappsm.android.model.Song;
 import com.slappsm.android.service.LastfmService;
+import com.slappsm.android.ui.home.HomeRecyclerViewAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -26,11 +30,15 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class FriendsFragment extends Fragment {
+public class FriendsFragment extends Fragment implements FriendsRecyclerViewAdapter.ItemClickListener {
 
     private FriendsViewModel friendsViewModel;
     public static String BASEURL = "https://songlyricsapi.herokuapp.com/api/lastfm/";
     private String username;
+
+    RecyclerView recyclerView;
+    FriendsRecyclerViewAdapter adapter;
+    ArrayList<String> friendsList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +48,14 @@ public class FriendsFragment extends Fragment {
 
         this.loadFriends();
         username= MainActivity.username;
+
+        friendsList = new ArrayList<>();
+        recyclerView = root.findViewById(R.id.recyclerViewFriends);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new FriendsRecyclerViewAdapter(getContext(), friendsList);
+        adapter.setClickListener(this);
+        recyclerView.setAdapter(adapter);
+
 
         return root;
     }
@@ -56,6 +72,10 @@ public class FriendsFragment extends Fragment {
                 } else {
                     List<Friend> friends = response.body();
                     System.out.println(friends.toString());
+                    for (Friend friend: friends) {
+                        friendsList.add(friend.getNick());
+                    }
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -67,4 +87,8 @@ public class FriendsFragment extends Fragment {
     }
 
 
+    @Override
+    public void onItemClick(View view, int position) {
+
+    }
 }
