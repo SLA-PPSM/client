@@ -14,10 +14,22 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.slappsm.android.MainActivity;
 import com.slappsm.android.R;
+import com.slappsm.android.model.Friend;
+import com.slappsm.android.model.Song;
+import com.slappsm.android.service.LastfmService;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FriendsFragment extends Fragment {
 
     private FriendsViewModel friendsViewModel;
+    public static String BASEURL = "https://songlyricsapi.herokuapp.com/api/lastfm/";
     private String username;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -25,7 +37,34 @@ public class FriendsFragment extends Fragment {
         friendsViewModel =
                 new ViewModelProvider(this).get(FriendsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_friends, container, false);
+
+        this.loadFriends();
         username= MainActivity.username;
+
         return root;
     }
+
+    void loadFriends() {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL).addConverterFactory(GsonConverterFactory.create()).build();
+        LastfmService lastfmService = retrofit.create(LastfmService.class);
+        Call<List<Friend>> call = lastfmService.getFriends();
+        call.enqueue(new Callback<List<Friend>>() {
+            @Override
+            public void onResponse(Call<List<Friend>> call, Response<List<Friend>> response) {
+                if(!response.isSuccessful()) {
+                    System.out.println("Server Error");
+                } else {
+                    List<Friend> friends = response.body();
+                    System.out.println(friends.toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Friend>> call, Throwable t) {
+                System.out.println("Internet Error");
+            }
+        });
+    }
+
+
 }
