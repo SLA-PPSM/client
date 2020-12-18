@@ -1,14 +1,11 @@
-package com.slappsm.android.ui.home;
+package com.slappsm.android.ui.friends;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.slappsm.android.MainActivity;
 import com.slappsm.android.R;
-import com.slappsm.android.SetNameActivity;
 import com.slappsm.android.model.Profile;
 import com.slappsm.android.model.Song;
 import com.slappsm.android.service.LastfmService;
+import com.slappsm.android.ui.home.HomeRecyclerViewAdapter;
+import com.slappsm.android.ui.home.HomeViewModel;
 import com.slappsm.android.ui.lyrics.LyricsFragment;
 import com.squareup.picasso.Picasso;
 
@@ -35,11 +33,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.ItemClickListener {
+public class FriendProfileFragment extends Fragment implements HomeRecyclerViewAdapter.ItemClickListener {
 
-    private HomeViewModel homeViewModel;
     private TextView title;
-    private ImageButton settingsButton;
     public static String BASEURL = "https://songlyricsapi.herokuapp.com/api/lastfm/";
     private TextView textNickname;
     private TextView textScrobbles;
@@ -53,9 +49,12 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                new ViewModelProvider(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        View root = inflater.inflate(R.layout.fragment_friend_profile, container, false);
+        Bundle bundle=getArguments();
+        if(bundle != null){
+            username = bundle.getString("username", null);
+        }
         textNickname = root.findViewById(R.id.textNickname);
         textScrobbles = root.findViewById(R.id.textScrobbles);
         imageAvatar = root.findViewById(R.id.imageAvatar);
@@ -69,7 +68,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
         adapter = new HomeRecyclerViewAdapter(getContext(), recentTracksList);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
-        username= MainActivity.username;
+
 
         this.loadProfile();
         this.loadCurrentTrack();
@@ -82,19 +81,18 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
         super.onViewCreated(view, savedInstanceState);
         title = getView().findViewById(R.id.textViewLyricsCurrSong);
         title.setOnClickListener(v -> showLyrics(title.getText().toString()));
-        settingsButton = view.findViewById(R.id.settingsButton);
-        settingsButton.setOnClickListener(v -> goToSettings(v));
         System.out.println(username);
     }
 
     public void showLyrics(String song) {
         Bundle bun = new Bundle();
         bun.putString("title", song);
+        bun.putString("navFriend","Friends");
         LyricsFragment lyricsfg = new LyricsFragment();
         lyricsfg.setArguments(bun);
 
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.home_layout, lyricsfg, "findThisFragment")
+                .replace(R.id.friendProfileLayout, lyricsfg, "findThisFragment")
                 .addToBackStack(null)
                 .commit();
 
@@ -187,9 +185,5 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
     public void onItemClick(View view, int position) {
         Song song = adapter.getItem(position);
         showLyrics(song.getTitle() + " - " + song.getArtist());
-    }
-    public void goToSettings(View v) {
-        Intent intent = new Intent(getActivity(), SetNameActivity.class);
-        startActivity(intent);
     }
 }

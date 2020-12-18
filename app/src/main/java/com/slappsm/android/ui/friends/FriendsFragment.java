@@ -20,6 +20,7 @@ import com.slappsm.android.model.Friend;
 import com.slappsm.android.model.Song;
 import com.slappsm.android.service.LastfmService;
 import com.slappsm.android.ui.home.HomeRecyclerViewAdapter;
+import com.slappsm.android.ui.lyrics.LyricsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,10 +85,22 @@ public class FriendsFragment extends Fragment implements FriendsRecyclerViewAdap
             }
         });
     }
+    public void openProfile(String username) {
+        Bundle bun = new Bundle();
+        bun.putString("username", username);
+        FriendProfileFragment friendProfileFragment = new FriendProfileFragment();
+        friendProfileFragment.setArguments(bun);
 
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.textFriends, friendProfileFragment, "findThisFragment")
+                .addToBackStack("friendProfile")
+                .commit();
+
+    }
 
     @Override
     public void onItemClick(View view, int position) {
-
+        //System.out.println(adapter.getItem(position).getNick());
+        openProfile(adapter.getItem(position).getNick());
     }
 }

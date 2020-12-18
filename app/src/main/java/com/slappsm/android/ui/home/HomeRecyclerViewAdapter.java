@@ -24,7 +24,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    HomeRecyclerViewAdapter(Context context, List<Song> data) {
+    public HomeRecyclerViewAdapter(Context context, List<Song> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -74,12 +74,12 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     }
 
     // convenience method for getting data at click position
-    Song getItem(int id) {
+    public Song getItem(int id) {
         return mData.get(id);
     }
 
     // allows clicks events to be caught
-    void setClickListener(ItemClickListener itemClickListener) {
+    public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 

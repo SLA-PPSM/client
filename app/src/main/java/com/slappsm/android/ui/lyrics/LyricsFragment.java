@@ -34,6 +34,7 @@ public class LyricsFragment extends Fragment {
     private TextView textViewLyrics;
     private String song;
     private int id;
+    String navigatedFromFriends;
 
     ImageButton backBtn;
     public LyricsFragment() {
@@ -55,6 +56,7 @@ public class LyricsFragment extends Fragment {
         Bundle bundle=getArguments();
         if(bundle != null){
             song = bundle.getString("title", null);
+            navigatedFromFriends = bundle.getString("navFriend",null);
             title.setText(song);
         }
 
@@ -70,7 +72,12 @@ public class LyricsFragment extends Fragment {
         backBtn.setOnClickListener(v -> goBack(v));
     }
     public void goBack(View v){
-        getActivity().getSupportFragmentManager().popBackStack();
+        System.out.println(navigatedFromFriends);
+        if(navigatedFromFriends!=null)
+            getActivity().getSupportFragmentManager().popBackStack("friendProfile",0);
+        else
+            getActivity().getSupportFragmentManager().popBackStack();
+
     }
 
     void getLyrics() {
