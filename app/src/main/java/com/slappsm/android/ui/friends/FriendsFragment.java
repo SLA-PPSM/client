@@ -12,18 +12,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.slappsm.android.MainActivity;
 import com.slappsm.android.R;
 
 public class FriendsFragment extends Fragment {
 
     private FriendsViewModel friendsViewModel;
+    private String username;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         friendsViewModel =
                 new ViewModelProvider(this).get(FriendsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_friends, container, false);
-
+        username= MainActivity.username;
         return root;
     }
 }

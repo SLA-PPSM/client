@@ -15,6 +15,7 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.slappsm.android.ui.friends.FriendsFragment"
         android:label="@string/title_friends"
+
         tools:layout="@layout/fragment_friends" />
 
     <fragment

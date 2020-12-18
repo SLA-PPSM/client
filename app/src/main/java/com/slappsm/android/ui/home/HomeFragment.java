@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.slappsm.android.MainActivity;
 import com.slappsm.android.R;
 import com.slappsm.android.ui.lyrics.LyricsFragment;
 
@@ -18,13 +19,13 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private TextView title;
-
+    private String username;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
+        username= MainActivity.username;
 
         return root;
     }
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         title = getView().findViewById(R.id.textViewLyricsCurrSong);
         title.setOnClickListener(v -> showLyrics(v));
+        System.out.println(username);
     }
 
     public void showLyrics(View v) {
