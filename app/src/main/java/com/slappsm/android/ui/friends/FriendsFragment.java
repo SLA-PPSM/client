@@ -38,16 +38,15 @@ public class FriendsFragment extends Fragment implements FriendsRecyclerViewAdap
 
     RecyclerView recyclerView;
     FriendsRecyclerViewAdapter adapter;
-    ArrayList<String> friendsList;
+    ArrayList<Friend> friendsList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         friendsViewModel =
                 new ViewModelProvider(this).get(FriendsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_friends, container, false);
-
-        this.loadFriends();
         username= MainActivity.username;
+        this.loadFriends();
 
         friendsList = new ArrayList<>();
         recyclerView = root.findViewById(R.id.recyclerViewFriends);
@@ -63,7 +62,7 @@ public class FriendsFragment extends Fragment implements FriendsRecyclerViewAdap
     void loadFriends() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL).addConverterFactory(GsonConverterFactory.create()).build();
         LastfmService lastfmService = retrofit.create(LastfmService.class);
-        Call<List<Friend>> call = lastfmService.getFriends();
+        Call<List<Friend>> call = lastfmService.getFriends(username);
         call.enqueue(new Callback<List<Friend>>() {
             @Override
             public void onResponse(Call<List<Friend>> call, Response<List<Friend>> response) {
@@ -73,7 +72,7 @@ public class FriendsFragment extends Fragment implements FriendsRecyclerViewAdap
                     List<Friend> friends = response.body();
                     System.out.println(friends.toString());
                     for (Friend friend: friends) {
-                        friendsList.add(friend.getNick());
+                        friendsList.add(friend);
                     }
                     adapter.notifyDataSetChanged();
                 }

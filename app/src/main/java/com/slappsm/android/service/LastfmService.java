@@ -8,17 +8,18 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface LastfmService {
-    @GET("getRecentTracks/freakinlikemj")
-    Call<List<Song>> getRecentTracks();
+    @GET("getRecentTracks/{username}")
+    Call<List<Song>> getRecentTracks(@Path("username") String username);
 
-    @GET("getProfile/freakinlikemj")
-    Call<Profile> getProfile();
+    @GET("getProfile/{username}")
+    Call<Profile> getProfile(@Path("username") String username);
 
-    @GET("getCurrentTrack/freakinlikemj")
-    Call<Song> getCurrentTrack();
+    @GET("getCurrentTrack/{username}")
+    Call<Song> getCurrentTrack(@Path("username") String username);
 
-    @GET("getFriends/freakinlikemj")
-    Call<List<Friend>> getFriends();
+    @GET("getFriends/{username}")
+    Call<List<Friend>> getFriends(@Path("username") String username);
 }

@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
 
     RecyclerView recyclerView;
     HomeRecyclerViewAdapter adapter;
-    ArrayList<String> recentTracksList;
+    ArrayList<Song> recentTracksList;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -65,11 +65,11 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
         adapter = new HomeRecyclerViewAdapter(getContext(), recentTracksList);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+        username= MainActivity.username;
 
         this.loadProfile();
         this.loadCurrentTrack();
         this.loadRecentTracks();
-        username= MainActivity.username;
 
         return root;
     }
@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
     void loadRecentTracks() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL).addConverterFactory(GsonConverterFactory.create()).build();
         LastfmService lastfmService = retrofit.create(LastfmService.class);
-        Call<List<Song>> call = lastfmService.getRecentTracks();
+        Call<List<Song>> call = lastfmService.getRecentTracks(username);
         call.enqueue(new Callback<List<Song>>() {
             @Override
             public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
@@ -106,7 +106,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
                 } else {
                     List<Song> recentTracks = response.body();
                     for (Song song: recentTracks) {
-                        recentTracksList.add(song.getTitle() + " - " + song.getArtist());
+                        recentTracksList.add(song);
                     }
                     adapter.notifyDataSetChanged();
                 }
@@ -115,6 +115,8 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
             @Override
             public void onFailure(Call<List<Song>> call, Throwable t) {
                 System.out.println("Internet Error");
+                System.out.println("XD" + t.getMessage());
+
             }
         });
     }
@@ -122,7 +124,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
     void loadProfile() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL).addConverterFactory(GsonConverterFactory.create()).build();
         LastfmService lastfmService = retrofit.create(LastfmService.class);
-        Call<Profile> call = lastfmService.getProfile();
+        Call<Profile> call = lastfmService.getProfile(username);
         call.enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
@@ -149,7 +151,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
     void loadCurrentTrack() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL).addConverterFactory(GsonConverterFactory.create()).build();
         LastfmService lastfmService = retrofit.create(LastfmService.class);
-        Call<Song> call = lastfmService.getCurrentTrack();
+        Call<Song> call = lastfmService.getCurrentTrack(username);
         call.enqueue(new Callback<Song>() {
             @Override
             public void onResponse(Call<Song> call, Response<Song> response) {
@@ -177,7 +179,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
 
     @Override
     public void onItemClick(View view, int position) {
-        String song = adapter.getItem(position);
-        showLyrics(song);
+        Song song = adapter.getItem(position);
+        showLyrics(song.getTitle() + " - " + song.getArtist());
     }
 }

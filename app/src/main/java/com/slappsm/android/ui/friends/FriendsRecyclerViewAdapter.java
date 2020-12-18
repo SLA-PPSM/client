@@ -4,22 +4,25 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.slappsm.android.R;
+import com.slappsm.android.model.Friend;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> mData;
+    private List<Friend> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    FriendsRecyclerViewAdapter(Context context, List<String> data) {
+    FriendsRecyclerViewAdapter(Context context, List<Friend> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -34,8 +37,10 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position);
-        holder.myTextView.setText(animal);
+        Friend friend = mData.get(position);
+        holder.textNickname.setText(friend.getNick());
+        Picasso.get().setLoggingEnabled(true);
+        Picasso.get().load(friend.getAvatar()).into(holder.imageAvatar);
     }
 
     // total number of rows
@@ -47,11 +52,13 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
+        TextView textNickname;
+        ImageView imageAvatar;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.tvAnimalName);
+            textNickname = itemView.findViewById(R.id.textNickname);
+            imageAvatar = itemView.findViewById(R.id.imageAvatar);
             itemView.setOnClickListener(this);
         }
 
@@ -62,7 +69,7 @@ public class FriendsRecyclerViewAdapter extends RecyclerView.Adapter<FriendsRecy
     }
 
     // convenience method for getting data at click position
-    String getItem(int id) {
+    Friend getItem(int id) {
         return mData.get(id);
     }
 

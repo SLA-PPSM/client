@@ -9,17 +9,22 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.slappsm.android.R;
+import com.slappsm.android.model.Song;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerViewAdapter.ViewHolder> {
 
-    private List<String> mData;
+    private List<Song> mData;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    HomeRecyclerViewAdapter(Context context, List<String> data) {
+    HomeRecyclerViewAdapter(Context context, List<Song> data) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
     }
@@ -34,8 +39,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position);
-        holder.myTextView.setText(animal);
+        Song song = mData.get(position);
+        holder.song.setText(song.getTitle() + " - " + song.getArtist());
+
+        Long unixTimestamp = Long.valueOf(song.getDate());
+        Date date = new Date(unixTimestamp * 1000L);
+        PrettyTime prettyTime = new PrettyTime();
+        holder.date.setText(prettyTime.format(date));
     }
 
     // total number of rows
@@ -47,11 +57,13 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
+        TextView song;
+        TextView date;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.tvAnimalName);
+            song = itemView.findViewById(R.id.song);
+            date = itemView.findViewById(R.id.date);
             itemView.setOnClickListener(this);
         }
 
@@ -62,7 +74,7 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     }
 
     // convenience method for getting data at click position
-    String getItem(int id) {
+    Song getItem(int id) {
         return mData.get(id);
     }
 

@@ -15,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.slappsm.android.R;
 import com.slappsm.android.model.Friend;
 import com.slappsm.android.model.Lyrics;
+import com.slappsm.android.model.Search;
+import com.slappsm.android.model.Song;
 import com.slappsm.android.service.GeniusService;
 import com.slappsm.android.service.LastfmService;
 
@@ -30,6 +32,8 @@ public class LyricsFragment extends Fragment {
 
     public static String BASEURL = "https://songlyricsapi.herokuapp.com/api/genius/";
     private TextView textViewLyrics;
+    private String song;
+    private int id;
 
     ImageButton backBtn;
     public LyricsFragment() {
@@ -50,13 +54,12 @@ public class LyricsFragment extends Fragment {
         TextView title = rootView.findViewById(R.id.textViewLyricsCurrSong);
         Bundle bundle=getArguments();
         if(bundle != null){
-            String myInt = bundle.getString("title", null);
-            title.setText(myInt);
+            song = bundle.getString("title", null);
+            title.setText(song);
         }
 
         textViewLyrics = rootView.findViewById(R.id.textViewLyrics);
-
-        this.getLyrics();
+        this.searchSong();
 
         return rootView;
     }
@@ -73,7 +76,7 @@ public class LyricsFragment extends Fragment {
     void getLyrics() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL).addConverterFactory(GsonConverterFactory.create()).build();
         GeniusService geniusService = retrofit.create(GeniusService.class);
-        Call<Lyrics> call = geniusService.getLyrics();
+        Call<Lyrics> call = geniusService.getLyrics(id);
         call.enqueue(new Callback<Lyrics>() {
             @Override
             public void onResponse(Call<Lyrics> call, Response<Lyrics> response) {
@@ -82,12 +85,35 @@ public class LyricsFragment extends Fragment {
                 } else {
                     Lyrics lyrics = response.body();
                     System.out.println(lyrics.toString());
-                    textViewLyrics.setText(lyrics.getLyrics());
+                    textViewLyrics.setText(lyrics.getLyrics() + "\n\n\n\n");
                 }
             }
 
             @Override
             public void onFailure(Call<Lyrics> call, Throwable t) {
+                System.out.println("Internet Error");
+            }
+        });
+    }
+
+    void searchSong() {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL).addConverterFactory(GsonConverterFactory.create()).build();
+        GeniusService geniusService = retrofit.create(GeniusService.class);
+        Call<List<Search>> call = geniusService.searchSong(song);
+        call.enqueue(new Callback<List<Search>>() {
+            @Override
+            public void onResponse(Call<List<Search>> call, Response<List<Search>> response) {
+                if(!response.isSuccessful()) {
+                    System.out.println("Server Error");
+                } else {
+                    List<Search> searchList = response.body();
+                    id = searchList.get(0).getId();
+                    getLyrics();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Search>> call, Throwable t) {
                 System.out.println("Internet Error");
             }
         });
