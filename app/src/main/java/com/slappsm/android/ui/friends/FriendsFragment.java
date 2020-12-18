@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.slappsm.android.MainActivity;
 import com.slappsm.android.R;
 import com.slappsm.android.model.Friend;
 import com.slappsm.android.model.Song;
@@ -29,6 +30,7 @@ public class FriendsFragment extends Fragment {
 
     private FriendsViewModel friendsViewModel;
     public static String BASEURL = "https://songlyricsapi.herokuapp.com/api/lastfm/";
+    private String username;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class FriendsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_friends, container, false);
 
         this.loadFriends();
+        username= MainActivity.username;
 
         return root;
     }

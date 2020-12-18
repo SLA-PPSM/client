@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.slappsm.android.MainActivity;
 import com.slappsm.android.R;
 import com.slappsm.android.model.Profile;
 import com.slappsm.android.model.Song;
@@ -31,19 +32,19 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private TextView title;
-
+  
     public static String BASEURL = "https://songlyricsapi.herokuapp.com/api/lastfm/";
     private TextView textNickname;
     private TextView textScrobbles;
     private ImageView imageAvatar;
     private TextView textViewLyricsCurrSong;
+    private String username;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
                 new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-
         textNickname = root.findViewById(R.id.textNickname);
         textScrobbles = root.findViewById(R.id.textScrobbles);
         imageAvatar = root.findViewById(R.id.imageAvatar);
@@ -52,6 +53,7 @@ public class HomeFragment extends Fragment {
         this.loadProfile();
         this.loadCurrentTrack();
         this.loadRecentTracks();
+        username= MainActivity.username;
 
         return root;
     }
@@ -60,6 +62,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         title = getView().findViewById(R.id.textViewLyricsCurrSong);
         title.setOnClickListener(v -> showLyrics(v));
+        System.out.println(username);
     }
 
     public void showLyrics(View v) {
