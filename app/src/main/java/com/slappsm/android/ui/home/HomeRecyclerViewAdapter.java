@@ -4,12 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.slappsm.android.R;
 import com.slappsm.android.model.Song;
+import com.squareup.picasso.Picasso;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -40,12 +42,15 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Song song = mData.get(position);
-        holder.song.setText(song.getTitle() + " - " + song.getArtist());
+        holder.textSong.setText(song.getTitle() + " - " + song.getArtist());
 
         Long unixTimestamp = Long.valueOf(song.getDate());
         Date date = new Date(unixTimestamp * 1000L);
         PrettyTime prettyTime = new PrettyTime();
-        holder.date.setText(prettyTime.format(date));
+        holder.textDate.setText(prettyTime.format(date));
+
+        Picasso.get().setLoggingEnabled(true);
+        Picasso.get().load(song.getImage()).into(holder.imageSong);
     }
 
     // total number of rows
@@ -57,13 +62,15 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView song;
-        TextView date;
+        ImageView imageSong;
+        TextView textSong;
+        TextView textDate;
 
         ViewHolder(View itemView) {
             super(itemView);
-            song = itemView.findViewById(R.id.song);
-            date = itemView.findViewById(R.id.date);
+            imageSong = itemView.findViewById(R.id.imageSong);
+            textSong = itemView.findViewById(R.id.textSong);
+            textDate = itemView.findViewById(R.id.textDate);
             itemView.setOnClickListener(this);
         }
 

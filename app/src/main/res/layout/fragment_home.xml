@@ -39,10 +39,11 @@
 
     <TextView
         android:id="@+id/textNickname"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="53dp"
-        android:layout_marginEnd="53dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center"
         android:text="Nickname"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/textScrobbles"
@@ -54,11 +55,12 @@
 
     <TextView
         android:id="@+id/textScrobbles"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="55dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="236dp"
+        android:gravity="center"
         android:text="scrobbles"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewHome"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,14 +81,16 @@
 
     <TextView
         android:id="@+id/textViewLyricsCurrSong"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="32dp"
         android:clickable="true"
+        android:gravity="left"
         android:text="nothing is playing"
         app:layout_constraintBottom_toTopOf="@+id/textRecentTracks"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
         app:layout_constraintStart_toStartOf="parent" />
 
     <View
