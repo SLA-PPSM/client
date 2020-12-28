@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.slappsm.android.R;
 import com.slappsm.android.model.Search;
 import com.slappsm.android.service.GeniusService;
+import com.slappsm.android.ui.lyrics.LyricsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,9 +92,23 @@ public class SearchFragment extends Fragment implements SearchRecyclerViewAdapte
         });
     }
 
+    public void showLyrics(int id, String song) {
+        Bundle bun = new Bundle();
+        bun.putString("id", String.valueOf(id));
+        bun.putString("title", song);
+        LyricsFragment lyricsfg = new LyricsFragment();
+        lyricsfg.setArguments(bun);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.search_layout, lyricsfg, "findThisFragment")
+                .addToBackStack(null)
+                .commit();
+
+    }
+
     @Override
     public void onItemClick(View view, int position) {
-        //System.out.println(adapter.getItem(position).getNick());
-        //openProfile(adapter.getItem(position).getNick());
+        Search search = adapter.getItem(position);
+        showLyrics(search.getId(), search.getTitle() + " - " + search.getArtist());
     }
 }

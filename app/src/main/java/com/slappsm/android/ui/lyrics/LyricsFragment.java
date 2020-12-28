@@ -26,9 +26,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LyricsFragment extends Fragment {
 
     public static String BASEURL = "https://songlyricsapi.herokuapp.com/api/genius/";
+    private TextView title;
     private TextView textViewLyrics;
     private String song;
-    private int id;
+    private String id;
     String navigatedFromFriends;
 
     ImageButton backBtn;
@@ -47,16 +48,21 @@ public class LyricsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_song_text, container, false);
 
-        TextView title = rootView.findViewById(R.id.textViewLyricsCurrSong);
+        title = rootView.findViewById(R.id.textViewLyricsCurrSong);
         Bundle bundle=getArguments();
         if(bundle != null){
             song = bundle.getString("title", null);
+            id = bundle.getString("id", null);
             navigatedFromFriends = bundle.getString("navFriend",null);
             title.setText(song);
         }
 
         textViewLyrics = rootView.findViewById(R.id.textViewLyrics);
-        this.searchSong();
+        if(id == null) {
+            this.searchSong();
+        } else {
+            this.getLyrics();
+        }
 
         return rootView;
     }
@@ -78,7 +84,7 @@ public class LyricsFragment extends Fragment {
     void getLyrics() {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASEURL).addConverterFactory(GsonConverterFactory.create()).build();
         GeniusService geniusService = retrofit.create(GeniusService.class);
-        Call<Lyrics> call = geniusService.getLyrics(id);
+        Call<Lyrics> call = geniusService.getLyrics(Integer.parseInt(id));
         call.enqueue(new Callback<Lyrics>() {
             @Override
             public void onResponse(Call<Lyrics> call, Response<Lyrics> response) {
@@ -109,7 +115,7 @@ public class LyricsFragment extends Fragment {
                     System.out.println("Server Error");
                 } else {
                     List<Search> searchList = response.body();
-                    id = searchList.get(0).getId();
+                    id = String.valueOf(searchList.get(0).getId());
                     getLyrics();
                 }
             }
