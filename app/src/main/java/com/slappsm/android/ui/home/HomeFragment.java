@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -111,9 +110,7 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
                     System.out.println("Server Error");
                 } else {
                     List<Song> recentTracks = response.body();
-                    for (Song song: recentTracks) {
-                        recentTracksList.add(song);
-                    }
+                    recentTracksList.addAll(recentTracks);
                     adapter.notifyDataSetChanged();
                 }
             }

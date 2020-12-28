@@ -4,21 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+
 import com.slappsm.android.R;
-import com.slappsm.android.model.Friend;
 import com.slappsm.android.model.Lyrics;
 import com.slappsm.android.model.Search;
-import com.slappsm.android.model.Song;
 import com.slappsm.android.service.GeniusService;
-import com.slappsm.android.service.LastfmService;
 
 import java.util.List;
 

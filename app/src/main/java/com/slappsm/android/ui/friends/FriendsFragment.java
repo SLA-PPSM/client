@@ -4,12 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,10 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.slappsm.android.MainActivity;
 import com.slappsm.android.R;
 import com.slappsm.android.model.Friend;
-import com.slappsm.android.model.Song;
 import com.slappsm.android.service.LastfmService;
-import com.slappsm.android.ui.home.HomeRecyclerViewAdapter;
-import com.slappsm.android.ui.lyrics.LyricsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +66,7 @@ public class FriendsFragment extends Fragment implements FriendsRecyclerViewAdap
                 } else {
                     List<Friend> friends = response.body();
                     System.out.println(friends.toString());
-                    for (Friend friend: friends) {
-                        friendsList.add(friend);
-                    }
+                    friendsList.addAll(friends);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -85,6 +77,7 @@ public class FriendsFragment extends Fragment implements FriendsRecyclerViewAdap
             }
         });
     }
+
     public void openProfile(String username) {
         Bundle bun = new Bundle();
         bun.putString("username", username);

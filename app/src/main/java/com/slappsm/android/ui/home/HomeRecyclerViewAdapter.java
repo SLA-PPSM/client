@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
-import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
