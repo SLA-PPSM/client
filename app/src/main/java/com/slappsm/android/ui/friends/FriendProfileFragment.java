@@ -39,6 +39,8 @@ public class FriendProfileFragment extends Fragment implements HomeRecyclerViewA
     private ImageView imageAvatar;
     private TextView textViewLyricsCurrSong;
     private String username;
+    private View loadingPanel;
+    private View homeView;
 
     RecyclerView recyclerView;
     HomeRecyclerViewAdapter adapter;
@@ -56,6 +58,8 @@ public class FriendProfileFragment extends Fragment implements HomeRecyclerViewA
         textScrobbles = root.findViewById(R.id.textScrobbles);
         imageAvatar = root.findViewById(R.id.imageAvatar);
         textViewLyricsCurrSong = root.findViewById(R.id.textViewLyricsCurrSong);
+        loadingPanel=root.findViewById(R.id.loadingPanel);
+        homeView=root.findViewById(R.id.friendProfileView);
 
         recentTracksList = new ArrayList<>();
 
@@ -110,6 +114,8 @@ public class FriendProfileFragment extends Fragment implements HomeRecyclerViewA
                         recentTracksList.add(song);
                     }
                     adapter.notifyDataSetChanged();
+                    loadingPanel.setVisibility(View.GONE);
+                    homeView.setVisibility(View.VISIBLE);
                 }
             }
 

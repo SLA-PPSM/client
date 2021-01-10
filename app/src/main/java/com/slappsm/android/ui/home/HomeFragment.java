@@ -39,12 +39,15 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
     private HomeViewModel homeViewModel;
     private TextView title;
     private ImageButton settingsButton;
+    private View loadingPanel;
+    private View homeView;
     public static String BASEURL = "https://songlyricsapi.herokuapp.com/api/lastfm/";
     private TextView textNickname;
     private TextView textScrobbles;
     private ImageView imageAvatar;
     private TextView textViewLyricsCurrSong;
     private String username;
+
 
     RecyclerView recyclerView;
     HomeRecyclerViewAdapter adapter;
@@ -59,7 +62,8 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
         textScrobbles = root.findViewById(R.id.textScrobbles);
         imageAvatar = root.findViewById(R.id.imageAvatar);
         textViewLyricsCurrSong = root.findViewById(R.id.textViewLyricsCurrSong);
-
+        loadingPanel=root.findViewById(R.id.loadingPanel);
+        homeView=root.findViewById(R.id.homeView);
         recentTracksList = new ArrayList<>();
 
         // set up the RecyclerView
@@ -112,6 +116,8 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
                     List<Song> recentTracks = response.body();
                     recentTracksList.addAll(recentTracks);
                     adapter.notifyDataSetChanged();
+                    loadingPanel.setVisibility(View.GONE);
+                    homeView.setVisibility(View.VISIBLE);
                 }
             }
 

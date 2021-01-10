@@ -31,6 +31,8 @@ public class LyricsFragment extends Fragment {
     private String song;
     private String id;
     String navigatedFromFriends;
+    private View loadingPanel;
+    private View lyricsView;
 
     ImageButton backBtn;
     public LyricsFragment() {
@@ -58,6 +60,8 @@ public class LyricsFragment extends Fragment {
         }
 
         textViewLyrics = rootView.findViewById(R.id.textViewLyrics);
+        loadingPanel=rootView.findViewById(R.id.loadingPanel);
+        lyricsView=rootView.findViewById(R.id.lyricsView);
         if(id == null) {
             this.searchSong();
         } else {
@@ -94,6 +98,8 @@ public class LyricsFragment extends Fragment {
                     Lyrics lyrics = response.body();
                     System.out.println(lyrics.toString());
                     textViewLyrics.setText(lyrics.getLyrics() + "\n\n\n\n");
+                    loadingPanel.setVisibility(View.GONE);
+                    lyricsView.setVisibility(View.VISIBLE);
                 }
             }
 

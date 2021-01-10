@@ -7,9 +7,23 @@
     android:id="@+id/lyrics_layout"
     android:background="@color/white"
     tools:context=".ui.lyrics.LyricsFragment">
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:gravity="center" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+    </RelativeLayout>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/lyricsView"
+    android:visibility="gone"
     >
 
     <TextView
