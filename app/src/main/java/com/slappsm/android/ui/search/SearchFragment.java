@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
-
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,6 +47,7 @@ public class SearchFragment extends Fragment implements SearchRecyclerViewAdapte
         adapter = new SearchRecyclerViewAdapter(getContext(), searchList);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
+
 
         SearchView searchView = root.findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

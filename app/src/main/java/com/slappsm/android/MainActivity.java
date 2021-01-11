@@ -36,8 +36,5 @@ public class MainActivity extends AppCompatActivity {
         navController.setGraph(graph);
 
         NavigationUI.setupWithNavController(navView, navController);
-
-
     }
-
 }

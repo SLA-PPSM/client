@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -38,6 +39,7 @@ public class LyricsFragment extends Fragment {
     public LyricsFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,14 +76,13 @@ public class LyricsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         backBtn = view.findViewById(R.id.backButton);
-        backBtn.setOnClickListener(v -> goBack(v));
+        backBtn.setOnClickListener(v -> goBack());
     }
-    public void goBack(View v){
-        System.out.println(navigatedFromFriends);
-        if(navigatedFromFriends!=null)
-            getActivity().getSupportFragmentManager().popBackStack("friendProfile",0);
-        else
-            getActivity().getSupportFragmentManager().popBackStack();
+    public void goBack(){
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .remove(this)
+                .addToBackStack(null)
+                .commit();
 
     }
 
@@ -121,8 +122,13 @@ public class LyricsFragment extends Fragment {
                     System.out.println("Server Error");
                 } else {
                     List<Search> searchList = response.body();
-                    id = String.valueOf(searchList.get(0).getId());
-                    getLyrics();
+                    if(searchList.size() > 0) {
+                        id = String.valueOf(searchList.get(0).getId());
+                        getLyrics();
+                    } else {
+                        goBack();
+                        Toast.makeText(getActivity(), "Lyrics not found", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 

@@ -77,6 +77,7 @@ public class FriendProfileFragment extends Fragment implements HomeRecyclerViewA
 
         return root;
     }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -96,7 +97,6 @@ public class FriendProfileFragment extends Fragment implements HomeRecyclerViewA
                 .replace(R.id.friendProfileLayout, lyricsfg, "findThisFragment")
                 .addToBackStack(null)
                 .commit();
-
     }
 
     void loadRecentTracks() {
