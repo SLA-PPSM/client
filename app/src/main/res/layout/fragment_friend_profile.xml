@@ -18,12 +18,12 @@
             android:layout_height="wrap_content"
             android:indeterminate="true" />
     </RelativeLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/friendProfileView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/friendProfileView"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
 
         <ImageView
@@ -33,16 +33,15 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="60dp"
             android:foregroundGravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/textSongLyrics"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.022" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textNickname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="96dp"
             android:layout_marginEnd="32dp"
             android:gravity="center"
             android:text="Nickname"
@@ -51,82 +50,81 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/imageAvatar"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textScrobbles"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="236dp"
             android:gravity="center"
             android:text="scrobbles"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerViewHome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.542"
-            app:layout_constraintStart_toEndOf="@+id/imageAvatar" />
+            app:layout_constraintStart_toEndOf="@+id/imageAvatar"
+            app:layout_constraintTop_toBottomOf="@+id/textNickname" />
 
         <TextView
             android:id="@+id/textSongLyrics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="32dp"
             android:text="Currently playing"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/textViewLyricsCurrSong"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.094"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageAvatar" />
 
         <TextView
             android:id="@+id/textViewLyricsCurrSong"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
-            android:layout_marginBottom="32dp"
             android:clickable="true"
             android:gravity="left"
             android:text="nothing is playing"
-            app:layout_constraintBottom_toTopOf="@+id/textRecentTracks"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textSongLyrics" />
 
         <View
+            android:id="@+id/view3"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="9dp"
             android:background="#e5e5e5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.78"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewLyricsCurrSong" />
 
         <TextView
             android:id="@+id/textRecentTracks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:text="Recent tracks"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerViewHome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.083"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view3"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewHome"
-            android:layout_width="378dp"
-            android:layout_height="301dp"
-            android:layout_marginBottom="52dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
             android:scrollbars="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.888"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textRecentTracks">
 
         </androidx.recyclerview.widget.RecyclerView>
 

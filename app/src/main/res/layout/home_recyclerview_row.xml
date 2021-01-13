@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/textSong"
         android:layout_width="231dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="1"
         android:paddingStart="5dp" />
@@ -23,7 +23,7 @@
     <TextView
         android:id="@+id/textDate"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textAlignment="textEnd" />
 
