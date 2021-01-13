@@ -1,19 +1,27 @@
-### Song Lyrics App
+# Song Lyrics App
+Last.fm client with song lyrics.
 
-##### Welcome screen
+## Documentation
+You can find the Song Lyrics App documentation [on this website](https://github.com/SLA-PPSM/client/raw/main/docs/songlyricsapp_dokumentacja.pdf).
+
+## Contributors
+* Mateusz Janczak
+* Mateusz Mądel
+
+### Welcome screen
 ![welcomescreen](./docs/welcome_screen.png)
 
-##### Profile
+### Profile
 ![profile](./docs/profile_screen.png)
 
-##### Friends
+### Friends
 ![friends](./docs/friends_screen.png)
 
-##### Friend profile
+### Friend profile
 ![friendprofile](./docs/friend_profile_screen.png)
 
-##### Search
+### Search
 ![search](./docs/search_screen.png)
 
-##### Lyrics
+### Lyrics
 ![lyrics](./docs/lyrics_screen.png)
