@@ -1,6 +1,8 @@
 package com.slappsm.android.ui.lyrics;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.slappsm.android.R;
 import com.slappsm.android.model.Lyrics;
@@ -34,6 +37,7 @@ public class LyricsFragment extends Fragment {
     String navigatedFromFriends;
     private View loadingPanel;
     private View lyricsView;
+
 
     ImageButton backBtn;
     public LyricsFragment() {
@@ -77,12 +81,22 @@ public class LyricsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         backBtn = view.findViewById(R.id.backButton);
         backBtn.setOnClickListener(v -> goBack());
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    getParentFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
     public void goBack(){
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .remove(this)
-                .addToBackStack(null)
-                .commit();
+        FragmentManager fm = getParentFragmentManager();
+        fm.popBackStack();
 
     }
 

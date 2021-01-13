@@ -1,6 +1,8 @@
 package com.slappsm.android.ui.friends;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -84,6 +87,18 @@ public class FriendProfileFragment extends Fragment implements HomeRecyclerViewA
         title = getView().findViewById(R.id.textViewLyricsCurrSong);
         title.setOnClickListener(v -> showLyrics(title.getText().toString()));
         System.out.println(username);
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if( keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    getParentFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void showLyrics(String song) {
@@ -92,9 +107,9 @@ public class FriendProfileFragment extends Fragment implements HomeRecyclerViewA
         bun.putString("navFriend","Friends");
         LyricsFragment lyricsfg = new LyricsFragment();
         lyricsfg.setArguments(bun);
-
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.friendProfileLayout, lyricsfg, "findThisFragment")
+        FragmentManager fm = getParentFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.nav_host_fragment, lyricsfg, "findThisFragment")
                 .addToBackStack(null)
                 .commit();
     }

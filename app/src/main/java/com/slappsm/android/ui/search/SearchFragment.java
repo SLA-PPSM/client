@@ -8,6 +8,7 @@ import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -98,9 +99,9 @@ public class SearchFragment extends Fragment implements SearchRecyclerViewAdapte
         bun.putString("title", song);
         LyricsFragment lyricsfg = new LyricsFragment();
         lyricsfg.setArguments(bun);
-
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.search_layout, lyricsfg, "findThisFragment")
+        FragmentManager fm = getParentFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.nav_host_fragment, lyricsfg, "findThisFragment")
                 .addToBackStack(null)
                 .commit();
 

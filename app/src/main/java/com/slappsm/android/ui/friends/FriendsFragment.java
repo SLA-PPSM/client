@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,9 +84,9 @@ public class FriendsFragment extends Fragment implements FriendsRecyclerViewAdap
         bun.putString("username", username);
         FriendProfileFragment friendProfileFragment = new FriendProfileFragment();
         friendProfileFragment.setArguments(bun);
-
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.textFriends, friendProfileFragment, "findThisFragment")
+        FragmentManager fm = getParentFragmentManager();
+        fm.beginTransaction()
+                .replace(R.id.nav_host_fragment, friendProfileFragment, "findThisFragment")
                 .addToBackStack("friendProfile")
                 .commit();
 

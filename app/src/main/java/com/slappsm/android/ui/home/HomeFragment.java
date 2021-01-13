@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -95,9 +96,10 @@ public class HomeFragment extends Fragment implements HomeRecyclerViewAdapter.It
         bun.putString("title", song);
         LyricsFragment lyricsfg = new LyricsFragment();
         lyricsfg.setArguments(bun);
+        FragmentManager fm = getParentFragmentManager();
 
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.home_layout, lyricsfg, "findThisFragment")
+        fm.beginTransaction()
+                .replace(R.id.nav_host_fragment, lyricsfg, "findThisFragment")
                 .addToBackStack(null)
                 .commit();
 

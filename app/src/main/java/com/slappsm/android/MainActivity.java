@@ -3,6 +3,7 @@ package com.slappsm.android;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavArgument;
 import androidx.navigation.NavController;
 import androidx.navigation.NavGraph;
@@ -37,4 +38,5 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupWithNavController(navView, navController);
     }
+
 }
